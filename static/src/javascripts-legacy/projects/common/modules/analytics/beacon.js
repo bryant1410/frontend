@@ -1,9 +1,9 @@
 define([
     'lib/config',
-    'lib/ajax'
+    'lib/fetch-json'
 ], function (
     config,
-    ajax
+    fetchJSON
 ) {
     return {
         fire: function (path) {
@@ -15,13 +15,13 @@ define([
         postJson: function (path, jsonString) {
             var url = (config.page.beaconUrl || '').replace(/^\/\//, window.location.protocol + '//') + path;
 
-            ajax({
-                url: url,
-                type: 'json',
+            fetchJSON(url, {
                 method: 'post',
-                contentType: 'application/json',
-                data: jsonString,
-                crossOrigin: true
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonString,
+                mode: 'cors',
             });
         }
     };
